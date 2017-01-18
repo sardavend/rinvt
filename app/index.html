@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <title>rInventory</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="initial-scale=1" />
+    <meta name="theme-color" content="#FF9800" />
+    <link rel='manifest' href="manifest.json">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,700'>
+    <link rel="stylesheet" href="libs/angular-material/angular-material.css"/>
+    <link rel="stylesheet" href="assets/app.css"/>
+    <link rel="stylesheet" href="assets/custom.css"/>
+  </head>
+
+  <body ng-cloak ng-app="starterApp" layout="column" ng-controller="UserController as ul">
+
+    <md-toolbar class="md-primary" layout="row">
+      <md-button class="menu" hide-gt-sm ng-click="ul.toggleList()" aria-label="Browse Users">
+        <md-icon md-svg-icon="menu" ></md-icon>
+      </md-button>
+      <img class="logo-main" src="assets/svg/stock.svg" alt="rInventory Logo">
+      <h3 class="md-heading">rInventory</h3>
+    </md-toolbar>
+
+    <div flex layout="row">
+         
+        <!--<md-sidenav md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" ng-click="ul.toggleList()" class="md-whiteframe-4dp" >
+          <md-list>
+            <md-list-item ng-repeat="u in ul.users">
+                <md-button ng-click="ul.selectUser(u)" ng-class="{'selected' : u === ul.selected }" >
+                  <md-icon md-svg-icon="{{u.avatar}}" class="avatar"></md-icon>
+                  {{u.name}}
+                </md-button>
+            </md-list-item>
+          </md-list>
+        </md-sidenav>-->
+        <md-sidenav md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" ng-click="ul.toggleList()" class="md-whiteframe-3dp">
+          <header class="nav-header">
+            <h1 class="docs-logotype md-heading"> rInventory</h1>
+           </header> 
+          <md-list>
+            <md-list-item>
+                <!--<md-button ng-click="ul.selectUser(u)" ng-class="{'selected' : u === ul.selected }" >-->
+                <md-button ng-show="ul.showUser" ng-click="ul.logout()" ng-class="{'selected' : u === ul.selected }" >
+                  {{ul.userName}} 
+                </md-button>
+           </md-list-item>
+           <md-list-item>
+                <md-button ng-click="ul.logout()" ng-class="{'selected' : u === ul.selected }" >
+                  Cerrar Sesion 
+                </md-button>
+           </md-list-item>
+           <md-list-item>
+                <md-button ng-click="ul.logout()" ng-class="{'selected' : u === ul.selected }" >
+                  Acerca de ..
+                </md-button>
+            </md-list-item>
+          </md-list>
+        </md-sidenav>
+        <!--
+        <div id="content" ng-view>
+          
+        </div>-->
+        <!--<md-content flex id="content" ng-view style="overflow: auto; height:600px">-->
+        <md-content layout-padding layout="row" flex layout-align="center start">
+          <div flex ng-view flex></div>
+          <div flex="15" hide show-gt-sm></div>
+        </md-content>
+
+
+    </div>
+    <script src="libs/angular/angular.js"></script>
+    <script src="libs/angular-animate/angular-animate.js"></script>
+    <script src="libs/angular-route/angular-route.js"></script>
+    <script src="libs/angular-aria/angular-aria.js"></script>
+    <script src="libs/angular-cookies/angular-cookies.js"></script>
+    <script src="libs/angular-resource/angular-resource.js"></script>
+    <!--<script src="../node_modules/angular-ui-router.js"></script>-->
+    <script type="text/javascript" src="libs/angular-material/angular-material.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script>    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>    
+
+
+    <script src="./src/users/Users.js"></script>
+    <script src="./src/gasloader/GasLoader.js"></script>
+    <script src="./src/login/Login.js"></script>
+    <script src="./src/units/Units.js"></script>
+    <script src="./src/users/UserController.js"></script>
+    <script src="./src/users/UserService.js"></script>
+    <script src="./src/gasloader/GasLoaderController.js"></script>
+    <script src="./src/login/LoginController.js"></script>
+    <script src="./src/login/LoginService.js"></script>
+    <script src="./src/dashboard/dashboard.js"></script>
+    <script src="//cdn.jsdelivr.net/pouchdb/6.1.1/pouchdb.min.js"></script> 
+
+    <script type="text/javascript">
+
+          angular
+              .module('starterApp', ['ngMaterial', 'users','gasLoader','dashboard','login','units','ngRoute', 'ngCookies'])
+              .config(function($mdThemingProvider, $mdIconProvider, $routeProvider){
+
+                  $mdIconProvider
+                      .defaultIconSet("./assets/svg/avatars.svg", 128)
+                      .icon("menu"       , "./assets/svg/menu.svg"        , 24)
+                      .icon("share"      , "./assets/svg/share.svg"       , 24)
+                      .icon("google_plus", "./assets/svg/google_plus.svg" , 512)
+                      .icon("hangouts"   , "./assets/svg/hangouts.svg"    , 512)
+                      .icon("twitter"    , "./assets/svg/twitter.svg"     , 512)
+                      .icon("phone"      , "./assets/svg/phone.svg"       , 512);
+
+                 $mdThemingProvider.theme('default')
+                          .primaryPalette('orange')
+                          //.backgroundPalette('orange')
+                          .accentPalette('green')
+                          .dark();
+
+                 $routeProvider
+                    .when("/",{
+                      redirectTo:'/index'
+                    })
+                    .when("/gasloader", {
+                      templateUrl:"./src/gasloader/view/gasloader.html",
+                      controller:"GasLoaderCtrl",
+                      controllerAs:'flf',
+                      title:'Formulario de Carga de Combustible',
+                      resolve:{
+                        units: ["LoadVehicles", function(LoadVehicles){
+                          return LoadVehicles();
+                        }],
+                        fuelStations: ["LoadFuelStations", function(LoadFuelStations){
+                          return LoadFuelStations();
+                        }]
+                      }
+                    })
+                    .when("/login",{
+                      templateUrl:"./src/login/view/login.html",
+                      controller:"LoginCtrl",
+                      controllerAs:'lg',
+                      title:'Iniciar Sesion'
+                    })
+                    .when("/dashboard",{
+                      templateUrl:"./src/dashboard/view/dashboard.html",
+                      controller:"DashboardCtrl",
+                      controllerAs:"dshb",
+                      title:'Dashboard'
+                    })
+                    .otherwise({
+                      redirectTo:"/login"
+                    });
+
+              })
+              .run(function($location, $rootScope){
+                $rootScope.$on('$routeChangeSuccess', function(event, current, previous){
+                  $rootScope.title = current.$$route.title;
+                })
+              });
+
+    </script>
+    <script>
+	if ('serviceWorker' in navigator) {
+	  window.addEventListener('load', function() {
+    		navigator.serviceWorker.register('/sw.js').then(function(registration) {
+      // Registration was successful
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    }).catch(function(err) {
+      // registration failed :(
+      console.log('ServiceWorker registration failed: ', err);
+    });
+  });
+}
+    </script>
+
+  </body>
+</html>

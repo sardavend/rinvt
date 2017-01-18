@@ -1,0 +1,109 @@
+
+	<md-tabs md-dynamic-height="" md-border-bottom="">
+		<!--<md-tab label="Principal">
+		 <div layout-xs="column" layout-sm="column" layout="row" layout-align="center center">
+			  <md-card class="card_primary" md-theme="default" md-theme-watch ng-repeat="warehouse in dshb.warehouses">
+		        <md-card-title>
+		          <md-card-title-text>
+		            <span class="md-headline md-accent">{{warehouse.name}}</span>
+		            <span class="md-subhead">Productos: {{warehouse.numOfProducts}}</span>
+		          </md-card-title-text>
+		          <md-card-title-media>
+		            <div class="md-media-sm scard-media">
+		            	<img src="assets/svg/warehouse (1).svg" alt="" class="md-card-image">
+		            </div>
+		          </md-card-title-media>
+		        </md-card-title>
+		        <md-card-actions layout="row" layout-align="end center">
+		          <md-button class="md-fab md-mini" aria-label="Agregar Items">
+		          	<md-icon md-svg-src="assets/svg/ic_note_add_black_24px.svg"></md-icon>	
+		          </md-button>
+		          <md-button class="md-fab md-mini" aria-label="Quitar Items">
+		          	<md-icon md-svg-src="assets/svg/ic_input_black_24px.svg"></md-icon>	
+		          </md-button>
+		        </md-card-actions>
+		      </md-card>
+		 </div>
+		</md-tab>-->
+		<md-tab label="Productos">
+		<!--
+		  <md-toolbar class="md-hue-2">
+		    <div class="md-toolbar-tools">
+		        <md-button class="md-fab md-mini" aria-label="Favorite">
+		          <md-icon md-svg-icon="assets/svg/ic_note_add_black_24px.svg"></md-icon>
+		        </md-button>
+	        </div>
+    	 </md-toolbar>-->
+
+			<div layout="row">
+		        <md-button class="md-fab md-mini" aria-label="Favorite" ng-click="dshb.openCreateProductDialog(ev)">
+		          <md-icon md-svg-icon="assets/svg/ic_note_add_black_24px.svg"></md-icon>
+		        </md-button>
+			</div>
+
+			<md-list class="md-dense" flex="">
+				<md-subheader class="md-no-sticky">Repuestos</md-subheader>
+				<md-list-item class="md-3-line" ng-repeat="product in dshb.products" ng-click="null">
+					<img ng-src="{{product.img}}?{{$index}}" alt="{{producto.description}}" class="md-avatar">
+					<div class="md-list-item-text" layout="column">
+						<h3>{{ product.name }}</h3>
+						<h4>{{ product.id }}</h4>
+						<p>{{  product.description}}</p>
+					</div>
+				</md-list-item>
+				<md-divider></md-divider>
+				<md-subheader class="md-no-sticky">Materiales</md-subheader>
+				<md-list-item class="md-3-line" ng-repeat="product in dshb.products" ng-click="null">
+					<img ng-src="{{product.img}}?{{$index}}" alt="{{producto.description}}" class="md-avatar">
+					<div class="md-list-item-text" layout="column">
+						<h3>{{ product.name }}</h3>
+						<h4>{{ product.id }}</h4>
+						<p>{{  product.description}}</p>
+					</div>
+				</md-list-item>
+				<md-subheader class="md-no-sticky">Otros</md-subheader>
+				<md-list-item class="md-3-line" ng-repeat="product in dshb.products" ng-click="null">
+					<img ng-src="{{product.img}}?{{$index}}" alt="{{producto.description}}" class="md-avatar">
+					<div class="md-list-item-text" layout="column">
+						<h3>{{ product.name }}</h3>
+						<h4>{{ product.id }}</h4>
+						<p>{{product.description}}</p>
+					</div>
+				</md-list-item>
+
+			</md-list>
+
+		</md-tab>
+
+		<md-tab label="Clientes">
+		</md-tab>
+		<md-tab label="Proveedores">
+			<div layout="row">
+		        <md-button class="md-fab md-mini" aria-label="Favorite" ng-click="dshb.openCreateProviderDialog($event)">
+		          <md-icon md-svg-icon="assets/svg/ic_note_add_black_24px.svg"></md-icon>
+		        </md-button>
+		        <md-input-container class="md-block" flex-gt-sm>
+            		<label>Busca proveedor</label>
+            		<input ng-model="dshb.providerSearch">
+          		</md-input-container>
+
+			</div>
+			<div layout="row">
+				<p>{{dshb.message}}</p>
+			</div>
+			<md-list class="md-dense" flex="">
+				<!--<md-subheader class="md-no-sticky">Repuestos</md-subheader>-->
+				<md-list-item class="md-3-line" ng-repeat="provider in dshb.providerList | filter:dshb.providerSearch" ng-click="null">
+					<img ng-src="{{provider.img}}?{{$index}}" alt="{{provider.description}}" class="md-avatar">
+					<div class="md-list-item-text" layout="column">
+						<h3>{{ provider.name }}</h3>
+						<h4>{{ provider.description}}</h4>
+						<p>{{provider.address}}</p>
+						<md-icon md-svg-icon="assets/svg/ic_delete_forever_white_24px.svg" aria-label="Delete Provider" class="md-secondary md-hue-3" ng-click="dshb.openDeleteProviderDialog($index)"></md-icon>
+					</div>
+				</md-list-item>
+			<md-divider></md-divider>
+
+		</md-tab>
+
+</md-tabs>

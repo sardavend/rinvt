@@ -1,0 +1,42 @@
+		<md-dialog aria-label="Provider Dialog">
+		 <form action="">
+		 	
+		    <md-toolbar>
+		      <div class="md-toolbar-tools">
+		        <h2>Nuevo Proveedor</h2>
+		        <span flex></span>
+		        <md-button class="md-icon-button" ng-click="cd.cancel()">
+		          <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+		        </md-button>
+		      </div>
+		    </md-toolbar>
+		    <md-dialog-content>
+		    	<div class="md-dialog-content">
+
+				    <!--<form action="">-->
+				    	<md-input-container class="md-block">
+				    		<label for="">Nombre</label>
+				    		<input type="text" ng-model="cd.newProviderName">
+				    	</md-input-container>
+
+				    	<md-input-container class="md-block">
+				    		<label for="">Descripcion</label>
+				    		<input type="text" ng-model="cd.newProviderDescription">
+				    	</md-input-container>
+
+				    	<md-input-container class="md-block">
+				    		<label for="">Direccion</label>
+				    		<input type="text" ng-model="cd.newProviderAddress">
+				    	</md-input-container>
+		                <md-input-container class="md-block" layout-align="center center" flex-gt-sm>
+		                </md-input-container>
+				    <!--</form>-->
+		    		
+		    	</div>
+			  </md-dialog-content>
+			  <md-dialog-actions layout="row">
+		         <md-button class="md-primary md-raised md-hue-2" ng-click="cd.save()">crear Proveedor</md-button>
+			  </md-dialog-actions>
+			  
+		 </form>
+		</md-dialog>

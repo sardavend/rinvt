@@ -1,0 +1,73 @@
+{
+  "_args": [
+    [
+      "angularjs-scope.safeapply",
+      "/home/sardavend/repos/monnet/platform2-gerrit/material-start"
+    ]
+  ],
+  "_from": "angularjs-scope.safeapply@latest",
+  "_id": "angularjs-scope.safeapply@0.0.1",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/angularjs-scope.safeapply",
+  "_npmUser": {
+    "email": "matias@yearofmoo.com",
+    "name": "matsko"
+  },
+  "_npmVersion": "1.1.69",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "angularjs-scope.safeapply",
+    "raw": "angularjs-scope.safeapply",
+    "rawSpec": "",
+    "scope": null,
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/angularjs-scope.safeapply/-/angularjs-scope.safeapply-0.0.1.tgz",
+  "_shasum": "d3a13b13d21916e1601d8267d31d3b722e4fe8e2",
+  "_shrinkwrap": null,
+  "_spec": "angularjs-scope.safeapply",
+  "_where": "/home/sardavend/repos/monnet/platform2-gerrit/material-start",
+  "author": {
+    "name": "Matias Niemela"
+  },
+  "bugs": {
+    "url": "https://github.com/yearofmoo/AngularJS-Scope.SafeApply/issues"
+  },
+  "dependencies": {},
+  "description": "A Scope Wrapper for AngularJS",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "d3a13b13d21916e1601d8267d31d3b722e4fe8e2",
+    "tarball": "https://registry.npmjs.org/angularjs-scope.safeapply/-/angularjs-scope.safeapply-0.0.1.tgz"
+  },
+  "homepage": "https://github.com/yearofmoo/AngularJS-Scope.SafeApply",
+  "keywords": [
+    "AngularJS",
+    "apply",
+    "javascript",
+    "js",
+    "nodejs",
+    "scope"
+  ],
+  "maintainers": [
+    {
+      "name": "matsko",
+      "email": "matias@yearofmoo.com"
+    }
+  ],
+  "name": "angularjs-scope.safeapply",
+  "optionalDependencies": {},
+  "readme": "# AngularJS - Scope.SafeApply\n\n## About\n\n...\n\n## Installation\n\nTo get this amazing plugin to run on your AngularJS application, simple download the plugin via NPM or Source File.\n\nThen include this in your AngularJS application.\n\n```javascript\nangular.module('YOUR_MODULE', ['Scope.SafeApply']);\n```\n\nAs soon as the application is bootstrapped or set to a ng-app directive then the plugin can be used inside your scope variables.\n\n## Usage\n\nTo use the plugin, simple apply all your changes like so:\n\n```javascript\n//use by itself\n$scope.$safeApply();\n\n//tell it which scope to update\n$scope.$safeApply($scope);\n$scope.$safeApply($anotherScope);\n\n//pass in an update function that gets called when the digest is going on...\n$scope.$safeApply(function() {\n\n});\n\n//pass in both a scope and a function\n$scope.$safeApply($anotherScope,function() {\n\n});\n\n//call it on the rootScope\n$rootScope.$safeApply();\n$rootScope.$safeApply($rootScope);\n$rootScope.$safeApply($scope);\n$rootScope.$safeApply($scope, fn);\n$rootScope.$safeApply(fn);\n```\n\n## Testing\n\nBe sure to install testacular via NPM (NodeJS) with the following command:\n\n`sudo npm install -g testacular`\n\nThen run this command at the root of the repo to test:\n\n`./test/run.sh`\n\nThe test output should look like so:\n\n```bash\nChrome 24.0: Executed X of X SUCCESS (0.123 secs / 0.123 secs)\n```\n\n## Blog Article\n\n...\nThe challenges regarding $scope and $apply in AngularJS are talked about in more detail here:\n\nhttp://www.yearofmoo.com/2012/10/more-angularjs-magic-to-supercharge-your-webapp.html#apply-digest-and-phase\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/yearofmoo/AngularJS-Scope.SafeApply.git"
+  },
+  "version": "0.0.1"
+}

@@ -1,0 +1,55 @@
+<md-dialog aria-label="Confirmacion">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Confirmar formulario</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cd.cancel()">
+          <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <md-list>
+          <md-list-item>
+            <h3>Surtidor: </h3>
+            <p> {{cd.dto.eserviceName}}</p>
+          <md-divider></md-divider>
+          </md-list-item>
+          <md-list-item>
+            <h3>Vehiculo: </h3>
+            <p> {{cd.dto.vehicleName}}</p>
+          <md-divider></md-divider>
+          </md-list-item>
+          <md-list-item>
+            <h3>Litros: </h3>
+            <p> {{cd.dto.liters}}</p>
+          <md-divider></md-divider>
+          </md-list-item>
+           <md-list-item>
+            <h3>Precio: </h3>
+            <p> {{cd.dto.price}}</p>
+          <md-divider></md-divider>
+          </md-list-item>       
+          <md-list-item>
+            <h3>Odometro: </h3>
+            <p> {{cd.dto.odometer}}</p>
+          <md-divider></md-divider>
+          </md-list-item> 
+        </md-list>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="cd.hide('cancelar')">
+      cancelar
+      </md-button>
+      <md-button ng-click="cd.answer('guardar')">
+      guardar
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

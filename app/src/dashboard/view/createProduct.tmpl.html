@@ -1,0 +1,78 @@
+		<md-dialog aria-label="Provider Dialog">
+		 <form action="">
+		 	
+		    <md-toolbar>
+		      <div class="md-toolbar-tools">
+		        <h2>Nuevo Producto</h2>
+		        <span flex></span>
+		        <md-button class="md-icon-button" ng-click="cd.cancel()">
+		          <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+		        </md-button>
+		      </div>
+		    </md-toolbar>
+		    <md-dialog-content>
+		    	<div class="md-dialog-content">
+
+				    <!--<form action="">-->
+				    	<md-input-container class="md-block">
+				    		<label for="">Nombre</label>
+				    		<input type="text" ng-model="cd.newProductName">
+				    	</md-input-container>
+
+				    	<md-input-container class="md-block">
+				    		<label for="">Descripcion</label>
+				    		<input type="text" ng-model="cd.newProductDescription">
+				    	</md-input-container>
+
+				    	<md-input-container class="md-block">
+				    		<label for="">Marca</label>
+				    		<input type="text" ng-model="cd.newProductBrand">
+				    	</md-input-container>
+		                <md-input-container class="md-block" layout-align="center center" flex-gt-sm>
+		                	<label for="">Tipo</label>
+				    		<input type="text" ng-model="cd.newProductType">
+		                </md-input-container>
+		                <md-input-container class="md-block" layout-align="center center" flex-gt-sm>
+		                	<label for="">Precio de Compra</label>
+				    		<input type="number" ng-model="cd.newProductBuyPrice" min="0">
+		                </md-input-container>
+		                <md-input-container class="md-block" layout-align="center center" flex-gt-sm>
+		                	<label for="">Precio de Venta</label>
+				    		<input type="number" ng-model="cd.newProductSellPrice" min="0">
+		                </md-input-container>
+		                <md-input-container class="md-block" layout-align="center center" flex-gt-sm>
+		                	<label for="">Cantidad</label>
+				    		<input type="number" ng-model="cd.newProductQuantity" min="0">
+		                </md-input-container>
+		                <!--<md-input-container class="md-block" layout-align="center center" flex-gt-sm>
+		                	<label for="">Almacen</label>
+				    		<input type="number" ng-model="cd.newProductWarehouseId">
+		                </md-input-container>-->
+			            <!--<md-input-container class="md-block" layout-align="center center" flex-gt-sm>
+		                	<label for="">Proveedor</label>
+				    		<input type="number" ng-model="cd.newProductProviderId">
+		                </md-input-container>-->
+
+			            <md-input-container class="md-block" layout-align="center center" flex-gt-sm>
+		                	<label for="">Proveedor</label>
+		                	<md-select ng-model="cd.selectedProvider" md-on-close="cd.clearSearchTerm()"
+		                		data-md-container-class="selectdemoSelectHeader">
+		                		<md-select-header class="demo-select-header">
+		                		<input id="searchInput" type="search" ng-model="cd.inputSearchProvider" placeholder="Busca un Proveedor.." class="demo-header-searchbox md-text">
+		                		</md-select-header>
+		                		<md-opt-group label="proveedor">
+		                			<md-option ng-value="p" ng-repeat="p in cd.providerList | filter:cd.inputSearchProvider">
+									{{p.name}}
+		                			</md-option>
+		                		</md-opt-group>
+		                	</md-select>
+		                </md-input-container>
+			    		
+		    	</div>
+			  </md-dialog-content>
+			  <md-dialog-actions layout="row">
+		         <md-button class="md-primary md-raised md-hue-2" ng-click="cd.save()">crear Producto</md-button>
+			  </md-dialog-actions>
+			  
+		 </form>
+		</md-dialog>

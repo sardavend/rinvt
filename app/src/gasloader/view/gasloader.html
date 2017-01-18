@@ -1,0 +1,53 @@
+<div layout="row" layout-xs="row" layout-align="center" flex>
+    <md-progress-circular ng-disabled="!flf.loading" ng-show="flf.loading" md-mode="indeterminate" md-diameter="20"></md-progress-circular>
+</div>
+<div class="row" id="popupContainer">
+
+                <md-subheader class="md-primary">Nuevo Producto</md-subheader>
+
+                    <form action="" name="fuelLoadform">
+                        <md-input-container class="md-block">
+                            <label>Selecciona un surtidor</label>
+                            <md-select ng-model="flf.selectedFuelStation" md-on-close="flf.clearSearchTerm()" data-md-container-class="selectdemoSelectHeader" >
+                              <md-select-header class="demo-select-header">
+                                <input ng-model="flf.inputSearchStation" type="search" placeholder="Busca un Surtidor.." class="demo-header-searchbox md-text">
+                              </md-select-header>
+                              <md-optgroup label="surtidores">
+                                <md-option ng-value="fs" ng-repeat="fs in flf.fuelStations|
+                                  filter:flf.inputSearchStation">{{fs.name}} - <small>{{fs.address}}</small></md-option>
+                              </md-optgroup>
+                            </md-select>
+                          </md-input-container>
+
+                          <md-input-container class="md-block">
+                            <label>Selecciona un Vehiculo</label>
+                            <md-select ng-model="flf.selectedUnit" md-on-close="flf.clearSearchTerm()" data-md-container-class="selectdemoSelectHeader" >
+                              <md-select-header class="demo-select-header">
+                                <input ng-model="flf.inputSearch" type="search" placeholder="Busca un Vehiculo.." class="demo-header-searchbox md-text">
+                              </md-select-header>
+                              <md-optgroup label="vehiculos">
+                                <md-option ng-value="u" ng-repeat="u in flf.units |
+                                  filter:flf.inputSearch">{{u.descripcion}}</md-option>
+                              </md-optgroup>
+                            </md-select>
+                          </md-input-container>
+
+
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label for="">Odometro Actual(Km)</label>
+                            <input type="number" ng-model="flf.odometer">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label for="">Cantidad(Lt)</label>
+                            <input type="number" ng-model="flf.liters">
+                        </md-input-container>
+
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label for="">Precio(Bs)</label>
+                            <input type="number" ng-model="flf.price">
+                        </md-input-container>
+                         <md-input-container class="md-block" layout-align="center center" flex-gt-sm>
+                             <md-button class="md-primary md-raised md-hue-2" ng-click="flf.save()">Guardar Carga</md-button>
+                        </md-input-container>
+                    </form>
+</div>
