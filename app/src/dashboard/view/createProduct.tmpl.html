@@ -1,6 +1,5 @@
 		<md-dialog aria-label="Provider Dialog">
 		 <form action="">
-		 	
 		    <md-toolbar>
 		      <div class="md-toolbar-tools">
 		        <h2>Nuevo Producto</h2>
@@ -26,34 +25,62 @@
 
 				    	<md-input-container class="md-block">
 				    		<label for="">Marca</label>
-				    		<input type="text" ng-model="cd.newProductBrand">
+		                	<md-select ng-model="cd.selectedBrand" md-on-close="cd.clearSearchTerm()"
+		                		data-md-container-class="selectdemoSelectHeader">
+		                		<md-select-header class="demo-select-header">
+		                		<input id="searchInput" type="search" ng-model="cd.inputSearchBrand" placeholder="Busca un Marca.." class="demo-header-searchbox md-text">
+		                		</md-select-header>
+		                		<md-opt-group label="proveedor">
+		                			<md-option ng-value="p" ng-repeat="p in cd.brandList | filter:cd.inputSearchBrand">
+									{{p.name}}
+		                			</md-option>
+		                		</md-opt-group>
+		                	</md-select>
 				    	</md-input-container>
-		                <md-input-container class="md-block" layout-align="center center" flex-gt-sm>
+		                <md-input-container class="md-block" flex-gt-sm>
 		                	<label for="">Tipo</label>
-				    		<input type="text" ng-model="cd.newProductType">
+		                	<md-select ng-model="cd.selectedType" md-on-close="cd.clearSearchTerm()"
+		                		data-md-container-class="selectdemoSelectHeader">
+		                		<md-select-header class="demo-select-header">
+		                		<input id="searchInput" type="search" ng-model="cd.inputSearchType" placeholder="Busca un Tipo.." class="demo-header-searchbox md-text">
+		                		</md-select-header>
+		                		<md-opt-group label="proveedor">
+		                			<md-option ng-value="p" ng-repeat="p in cd.typesList | filter:cd.inputSearchType">
+									{{p.name}}
+		                			</md-option>
+		                		</md-opt-group>
+		                	</md-select>
+
 		                </md-input-container>
-		                <md-input-container class="md-block" layout-align="center center" flex-gt-sm>
-		                	<label for="">Precio de Compra</label>
+		                <md-input-container class="md-block" flex-gt-sm>
+		                	<label for="">Precio Unitario Compra</label>
 				    		<input type="number" ng-model="cd.newProductBuyPrice" min="0">
 		                </md-input-container>
-		                <md-input-container class="md-block" layout-align="center center" flex-gt-sm>
-		                	<label for="">Precio de Venta</label>
+		                <md-input-container class="md-block" flex-gt-sm>
+		                	<label for="">Precio Unitario Venta</label>
 				    		<input type="number" ng-model="cd.newProductSellPrice" min="0">
 		                </md-input-container>
-		                <md-input-container class="md-block" layout-align="center center" flex-gt-sm>
-		                	<label for="">Cantidad</label>
-				    		<input type="number" ng-model="cd.newProductQuantity" min="0">
-		                </md-input-container>
-		                <!--<md-input-container class="md-block" layout-align="center center" flex-gt-sm>
-		                	<label for="">Almacen</label>
-				    		<input type="number" ng-model="cd.newProductWarehouseId">
-		                </md-input-container>-->
-			            <!--<md-input-container class="md-block" layout-align="center center" flex-gt-sm>
-		                	<label for="">Proveedor</label>
-				    		<input type="number" ng-model="cd.newProductProviderId">
-		                </md-input-container>-->
+		                <div class="row" >
 
-			            <md-input-container class="md-block" layout-align="center center" flex-gt-sm>
+			                <md-input-container class="md-block" flex-gt-sm>
+			                	<label for="">Cantidad</label>
+					    		<input type="number" ng-model="cd.newProductQuantity" min="0">
+			                </md-input-container>
+			                <md-input-container>
+			                	<label >Un Med</label>
+			                	<md-select ng-model="cd.selectedUnit" md-on-close="cd.clearSearchTerm()"
+			                		data-md-container-class="selectdemoSelectHeader">
+			                		<md-opt-group label="unidades">
+			                			<md-option ng-value="u" ng-repeat="u in cd.mesUnits">
+										{{u}}
+			                			</md-option>
+			                		</md-opt-group>
+			                	</md-select>
+			                </md-input-container>
+
+		                </div>
+
+			            <md-input-container class="md-block" flex-gt-sm>
 		                	<label for="">Proveedor</label>
 		                	<md-select ng-model="cd.selectedProvider" md-on-close="cd.clearSearchTerm()"
 		                		data-md-container-class="selectdemoSelectHeader">

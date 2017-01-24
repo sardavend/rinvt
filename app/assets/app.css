@@ -227,3 +227,9 @@ span.name {
   width: 80px;
   height: 80px;
 }
+
+
+[role="tabpanel"],
+md-tabs {
+  transition: none; /* or whatever transition you want
+}

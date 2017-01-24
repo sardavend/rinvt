@@ -2,9 +2,9 @@
 	'use strict'
 	angular
 		.module('dashboard', ['ngMaterial', 'ngResource', 'ngCookies','login'])
-		.controller('DashboardCtrl',["$mdDialog","$timeout","LoginInfo","$document","$location", DashboardCtrl]);
+		.controller('DashboardCtrl',["$mdDialog","$timeout","LoginInfo","$document","$location","Load","Save", DashboardCtrl]);
 
-		function DashboardCtrl($mdDialog, $timeout, LoginInfo, $document, $location){
+		function DashboardCtrl($mdDialog, $timeout, LoginInfo, $document, $location, Load, Save){
 			//Private
 			if(LoginInfo.getUser() == undefined){
 				$location.path('login').replace()
@@ -12,32 +12,28 @@
 			var vm = this;
 			var productDb= new PouchDB('productdb');
 			var providerDb = new PouchDB('providerdb');
+			var brandDb = new PouchDB('branddb');
+			var typeDb = new PouchDB('typedb');
 			var remoteCouchProvider = 'http://qampamad:mad14qampa@192.168.0.12:5984/providerdb'
 			var remoteCouchProduct  = 'http://qampamad:mad14qampa@192.168.0.12:5984/productdb'
+			var remoteCouchBrand  = 'http://qampamad:mad14qampa@192.168.0.12:5984/branddb'
+			var remoteCouchType  = 'http://qampamad:mad14qampa@192.168.0.12:5984/typedb'
 			var syncHandler = providerDb.sync(remoteCouchProvider,{
 				live:true,
 				retry:true
-			}).on('complete', function(){
-				console.log("Synced");
-
-			}).on('change', function(change){
-				console.log("Changed: " + change)
-
-			}).on('paused', function(info){
-				console.log("paused: " + info)
-
-			}).on('active', function(info){
-				console.log("active: " + info)
-
-			}).on('error', function(err){
-					console.log("an error has ocurred: " + err);
 			});
-
 			var syncHandlerProduct = productDb.sync(remoteCouchProduct,{
 				live:true,
 				retry:true
 			})
-
+			var syncHandlerBrand = brandDb.sync(remoteCouchBrand,{
+				live:true,
+				retry:true
+			});
+			var syncHandlerType = typeDb.sync(remoteCouchType,{
+				live:true,
+				retry:true
+			});
 
 			//Public
 			//PRODUCTS
@@ -52,35 +48,126 @@
 			vm.updateProviderListBinding = updateProviderListBinding;
 			vm.saveProvider = saveProvider;
 			vm.openDeleteProviderDialog = openDeleteProviderDialog;
-			providerDb.allDocs({
-					 include_docs:true,
-					 descending:true
-					}).then(function(allProviders){
-						if(allProviders.total_rows > 0){
-							return allProviders.rows;
-						}
-						showMessage("No creaste ningun Proveedor")
-						return []
-					}).then(function(rows){
-						vm.providerList = rows
-											.map((elem)=> elem.doc);
-					})
-					.catch(function(err){
-						if(err.name === "not_found"){
-							console.log("empty database");
-						}
-					})
+			vm.addBrand = addBrand;
+			vm.addType= addType;
+			vm.openRemoveProductDialog =openRemoveProductDialog;
+
+			Load(providerDb)
+						.then(function(providers){
+							vm.providerList = providers;
+						}).catch(function(err){
+							console.log(err);
+							console.log("Empty Db, it must be a new user!!");
+						});
+			Load(typeDb)
+						.then(function(types){
+							 	//return products;
+							 	vm.typesList = types;
+						}).then(function(){
+							return Load(productDb);
+						}).then(function(products){
+							 vm.productList = products;
+							 vm.theProductList = generateTypeList(vm.typesList, vm.productList);
+						}).catch(function(err){
+							console.log(err);
+							console.log("Empty DB, it must be a new user!!");
+						})
+			/*
+			Load(productDb)
+						.then(function(products){
+							 	//return products;
+							 	$timeout(()=>vm.theProductList = generateTypeList(vm.typesList, vm.productList),1)
+								
+
+						}).catch(function(err){
+							console.log(err);
+							console.log("Empty DB, it must be a new user!!");
+						});*/
 
 
-			//
+			Load(brandDb)
+						.then(function(brands){
+							 	//return products;
+							 	vm.brandList = brands;
+						}).catch(function(err){
+							console.log(err)
+							console.log("Empty DB, it must be a new user!!");
+						});
+	
+
+
+			function generateProductTypesList(tp, products){
+				return {
+					"typeName": tp.name,
+					"productList": products.filter((elem)=> elem.type._id == tp._id)
+				}
+			}
+
+			function generateTypeList(typesList, productList){
+				let theProductList = [];
+				theProductList = typesList.map((elem) => generateProductTypesList(elem, productList));
+				return theProductList;
+
+			}
+
+
+
+			function openRemoveProductDialog(index, tpl){
+				let confirmDeletion = $mdDialog.confirm()
+					.title("Estas seguro que deseas eliminar?")
+					.textContent('Toda referencia a ' + vm.productList[index].name +" sera eliminada")
+					.ariaLabel('delete confirm')
+					.ok('Eliminar')
+					.cancel('No por favor');
+
+				$mdDialog
+					.show(confirmDeletion)
+					.then(function(){
+						//return productDb.remove(vm.productList[index]);
+						return productDb.remove(tpl[index]);
+				    }).then(function(result){
+				    	//vm.productList.splice(index,1);
+				    	tpl.splice(index, 1);
+
+
+				    }).catch(function(err){
+				    	console.log(err);
+					})
+			};
+
+			function addBrand(name){
+				let _id = LoginInfo.getUser() +"-" + new Date().toISOString();
+				Save(brandDb,{"_id":_id,"name":name})
+							.then(function(nb){
+								vm.brandList.push(nb);
+							}).catch(function(err){
+								console.log(err);
+							});
+			}
+
+			function addType(name, description){
+				let _id = LoginInfo.getUser() +"-" + new Date().toISOString();
+				Save(typeDb,{"_id":_id, "name":name, "description":description})
+								.then(function(nt){
+									vm.typesList.push(nt);
+									vm.theProductList.push({
+										"typeName":nt.name,
+										"productList":[],
+									});
+								}).catch(function(err){
+									console.log(err);
+								});
+			}
+
 
 			function openCreateProductDialog(ev){
 				$mdDialog.show({
 					controller:CreateProductDialogCtrl,
 					controllerAs: "cd",
 					locals:{
-						providerList: vm.providerList
-
+						providerList: vm.providerList,
+						brandList: vm.brandList,
+						typesList: vm.typesList
 					},
 					templateUrl:"src/dashboard/view/createProduct.tmpl.html",
 					parent: angular.element(document.body),
@@ -93,7 +180,7 @@
 					console.log(err);
 				});
 			};
-			function CreateProductDialogCtrl($mdDialog, providerList, $document){ //item o producto
+			function CreateProductDialogCtrl($mdDialog, providerList, $document, typesList, brandList){ //item o producto
 				$document.find('input').on('keydown', function(ev) {
 	          		ev.stopPropagation();
 	        	})
@@ -101,6 +188,9 @@
 				vmpd.cancel = cancel;
 				vmpd.save = save;
 				vmpd.providerList = providerList;
+				vmpd.typesList= typesList;
+				vmpd.brandList = brandList;
+				vmpd.mesUnits = ["Kg","Mt", "Pza", "Lt","cm","cm2"];
 
 
 				function cancel(){
@@ -110,13 +200,21 @@
 					let newProduct = {
 						newProductName: vmpd.newProductName,
 						newProductDescription: vmpd.newProductDescription,
-						newProductBrand: vmpd.newProductBrand,
-						newProductType: vmpd.newProductType, //TIPO
+						newProductBrand: {
+							"_id":vmpd.selectedBrand._id,
+							"name":vmpd.selectedBrand.name
+						},
+						newProductType: {
+							"_id":vmpd.selectedType._id,
+							"name":vmpd.selectedType.name
+						},
 						newProductBuyPrice: vmpd.newProductBuyPrice,
 						newProductSellPrice: vmpd.newProductSellPrice,
 						newProductQuantity: vmpd.newProductQuantity,
-						newProductWarehouseId: vmpd.newProductWarehouseId,
-						newProductProviderId: vmpd.selectedProvider._id
+						newProductProviderId: {
+							"_id":vmpd.selectedProvider._id,
+							"name":vmpd.selectedProvider.name
+						}
 					}
 					$mdDialog.hide(newProduct);
 				}
@@ -128,6 +226,9 @@
 				const savedProduct= saveProduct(np);
 				//const productListUpdated = addNewProduct(savedProduct);
 				//updateProductListBinding(productListUpdated);
+			}
+			function typeLookup(typesList, typeName){
+				return typesList.map((elem)=>elem.name).indexOf(typeName)
 			}
 
 			function saveProduct(np){
@@ -152,14 +253,17 @@
 					img:"assets/svg/item_no_img.svg",
 
 				};
-				productDb.put(newProduct)
-					.then(function(){
-						return productDb.get(_id)
-					}).then(function(np){
-						$timeout(()=>vm.productList.push(np),0);
-					}).catch(function(err){
-						console.log(err);
-					})
+				Save(productDb,newProduct)
+						.then(function(np){
+							vm.productList.push(np);
+							let idx = typeLookup(vm.typesList, np.type.name);
+							if(idx >= 0){
+								vm.theProductList[idx].productList.push(np);
+
+							}
+						}).catch(function(err){
+							console.log(err);
+						})
 			}
 
 			//Inpure Function
@@ -176,7 +280,7 @@
 			function openDeleteProviderDialog(index){
 				let confirmDeletion = $mdDialog.confirm()
 					.title("Estas seguro que deseas eliminar?")
-					.textContent('Toda referencia a' + vm.providerList[index].name +" sera eliminada")
+					.textContent('Toda referencia a ' + vm.providerList[index].name +" sera eliminada")
 					.ariaLabel('delete confirm')
 					.ok('Eliminar')
 					.cancel('No por favor');
@@ -247,14 +351,12 @@
 					address:np.newProviderAddress,
 					img:"assets/svg/item_no_img.svg",
 				};
-				providerDb.put(newProvider)
-							.then(function(){
-								return providerDb.get(_id);
-							}).then(function(newProv){
-								 $timeout(()=>vm.providerList.push(newProv),0);
-							}).catch(function(err){
-								console.log(err);
-							})
+				Save(providerDb, newProvider)
+						.then(function(np){
+							vm.providerList.push(np);
+						}).catch(function(err){
+							console.log(err);
+						})
 			}
 			function addNewProvider(np, providerList){
 				providerList.push(np);
@@ -269,44 +371,6 @@
 				//updateProviderListBinding(savedProvider); 
 			}
 
-
-
-
-
-			vm.products = [
-			{
-				"name":"Correa Pesados",
-				"description":"Correas para uso en maquinaria pesada",
-				"id":"32234dfasg",
-				"img":"assets/svg/item_no_img.svg"
-			},
-			{
-				"name":"Correa Livianos",
-				"description":"Correas para uso en maquinaria pesada",
-				"id":"32234dfasg",
-				"img":"assets/svg/item_no_img.svg"
-			},
-			{
-				"name":"Filtro f33",
-				"description":"Correas para uso en maquinaria pesada",
-				"id":"32234dfasg",
-				"img":"assets/svg/item_no_img.svg"
-			}
-			]
-			vm.warehouses = [
-			{
-				"name":"Almacen Okinawa",
-				"numOfProducts":50
-			},
-			{
-				"name":"Almacen Santa Cruz",
-				"numOfProducts":28
-			},
-			{
-				"name":"Almacen San Juan",
-				"numOfProducts":200
-			}
-			]
 		};
 }
 )()
