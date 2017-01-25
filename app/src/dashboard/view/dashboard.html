@@ -36,19 +36,29 @@
 	            		<input ng-model="dshb.productSearch">
 	          		</md-input-container>
 		    	 </div> 
-		    	 <div ng-show="dshb.showNewTypeForm && !dshb.showNewBrandForm">
-		    	 	<md-button class="md-fab md-mini" aria-label="back to list">
+		    	 <div class="row" ng-show="dshb.showNewTypeForm">
+		    	 	<md-button class="md-fab md-mini" aria-label="back to list" ng-click="dshb.showNewTypeForm = !dshb.showNewTypeForm">
 		    	 		<md-icon md-svg-icon="assets/svg/ic_arrow_back_black_24px.svg"></md-icon>
 		    	 	</md-button>
+		    	 	<h3>Tipos de Productos</h3>
+		    	 </div>
+		    	 <div class="row" ng-show="dshb.showNewBrandForm">
+		    	 	<md-button class="md-fab md-mini" aria-label="back to list" ng-click="dshb.showNewBrandForm = !dshb.showNewBrandForm">
+		    	 		<md-icon md-svg-icon="assets/svg/ic_arrow_back_black_24px.svg"></md-icon>
+		    	 	</md-button>
+		    	 	<h3>Marcas</h3>
+		    	 	
 		    	 </div>
 
+
+
 		        <span flex></span>
-		        <md-button class="md-fab md-mini" aria-label="Favorite">
-		          <md-icon md-svg-icon="assets/svg/ic_merge_type_white_24px.svg" ng-click="dshb.showNewTypeForm =!dshb.showNewTypeForm"style="color: greenyellow;"></md-icon>
+		        <md-button ng-show="!dshb.showNewTypeForm && !dshb.showNewBrandForm" class="md-fab md-mini" aria-label="Favorite" ng-click="dshb.showNewTypeForm =!dshb.showNewTypeForm">
+		          <md-icon md-svg-icon="assets/svg/ic_merge_type_white_24px.svg" style="color: greenyellow;"></md-icon>
 		        </md-button>
 
-		        <md-button class="md-fab md-mini" aria-label="Favorite">
-		          <md-icon md-svg-icon="assets/svg/ic_branding_watermark_white_24px.svg" ng-click="dshb.showNewBrandForm=!dshb.showNewBrandForm"style="color: greenyellow;"></md-icon>
+		        <md-button ng-show="!dshb.showNewTypeForm && !dshb.showNewBrandForm" class="md-fab md-mini" aria-label="Favorite" ng-click="dshb.showNewBrandForm=!dshb.showNewBrandForm">
+		          <md-icon md-svg-icon="assets/svg/ic_branding_watermark_white_24px.svg" style="color: greenyellow;"></md-icon>
 		        </md-button>
 
 			</div>
@@ -110,10 +120,14 @@
 						<p>{{  product.brand.name}}</p>
 					</div>
 					<span flex></span>
-					<md-button class="md-secondary md-hue-3" aria-label="Delete product" ng-click="dshb.openRemoveProductDialog($index, tpl.productList)">
-						<md-icon md-svg-icon="assets/svg/ic_delete_forever_white_24px.svg"></md-icon>
+
+			        <md-icon md-svg-icon="assets/svg/ic_note_add_white_24px.svg" class="md-secondary" ng-click=""></md-icon>
+			        <md-icon md-svg-icon="assets/svg/ic_mode_edit_white_24px.svg" class="md-secondary md-hue-3" ng-click=""></md-icon>
+			        <md-icon class="md-secondary" ng-click="dshb.openRemoveProductDialog($index, tpl.productList)" md-svg-icon="assets/svg/ic_delete_forever_white_24px.svg"></md-icon>
+
+					<!--<md-button class="md-secondary md-hue-3" aria-label="Delete product" ng-click="">-->
 						
-					</md-button>
+					<!--</md-button>-->
 				</md-list-item>
 				<md-divider></md-divider>
 				<!--
