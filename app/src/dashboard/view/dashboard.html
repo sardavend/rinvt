@@ -93,6 +93,7 @@
 					<div class="md-list-item-text" layout="column">
 						<h4>{{$index + 1}}.  {{ t.name }}</h3>
 						<h4>{{ t.description}}</h4>
+						<md-icon md-svg-icon="assets/svg/ic_delete_forever_white_24px.svg" aria-label="Delete Provider" class="md-secondary md-hue-3" ng-click="dshb.openDeleteDialog($index, dshb.typesList, dshb.typeDb)"></md-icon>
 					</div>
 				</md-list-item>
 				<md-divider></md-divider>
@@ -104,6 +105,7 @@
 					<div class="md-list-item-text" layout="column">
 						<h4>{{$index + 1}}.  {{ t.name }}</h3>
 						<h4>{{ t.description}}</h4>
+						<md-icon md-svg-icon="assets/svg/ic_delete_forever_white_24px.svg" aria-label="Delete Provider" class="md-secondary md-hue-3" ng-click="dshb.openDeleteDialog($index, dshb.brandList, dshb.brandDb)"></md-icon>
 					</div>
 				</md-list-item>
 				<md-divider></md-divider>
@@ -121,9 +123,9 @@
 					</div>
 					<span flex></span>
 
-			        <md-icon md-svg-icon="assets/svg/ic_note_add_white_24px.svg" class="md-secondary" ng-click=""></md-icon>
-			        <md-icon md-svg-icon="assets/svg/ic_mode_edit_white_24px.svg" class="md-secondary md-hue-3" ng-click=""></md-icon>
-			        <md-icon class="md-secondary" ng-click="dshb.openRemoveProductDialog($index, tpl.productList)" md-svg-icon="assets/svg/ic_delete_forever_white_24px.svg"></md-icon>
+				        <md-icon md-svg-icon="assets/svg/ic_note_add_white_24px.svg" class="md-secondary" ng-click="dshb.openBuyProduct(product)"></md-icon>
+				        <md-icon md-svg-icon="assets/svg/ic_mode_edit_white_24px.svg" class="md-secondary md-hue-3" ng-click=""></md-icon>
+				        <md-icon class="md-secondary" ng-click="dshb.openDeleteDialog($index, tpl.productList, dshb.productDb)" md-svg-icon="assets/svg/ic_delete_forever_white_24px.svg"></md-icon>
 
 					<!--<md-button class="md-secondary md-hue-3" aria-label="Delete product" ng-click="">-->
 						
@@ -178,7 +180,7 @@
 						<h3>{{ provider.name }}</h3>
 						<h4>{{ provider.description}}</h4>
 						<p>{{provider.address}}</p>
-						<md-icon md-svg-icon="assets/svg/ic_delete_forever_white_24px.svg" aria-label="Delete Provider" class="md-secondary md-hue-3" ng-click="dshb.openDeleteProviderDialog($index)"></md-icon>
+						<md-icon md-svg-icon="assets/svg/ic_delete_forever_white_24px.svg" aria-label="Delete Provider" class="md-secondary md-hue-3" ng-click="dshb.openDeleteDialog($index, dshb.providerList, dshb.providerDb)"></md-icon>
 					</div>
 				</md-list-item>
 			<md-divider></md-divider>
