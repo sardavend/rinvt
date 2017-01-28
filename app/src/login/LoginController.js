@@ -20,12 +20,18 @@
         self.sessionInit = sessionInit;
         self.showCustomToast = showCustomToast;
 
-        function showCustomToast(){
+        function showCustomToast(message){
             $mdToast.show({
-                hideDelay   : 3000,
-                position    : 'top right',
-                controller  : 'ToastCtrl',
-                templateUrl : './src/login/view/toast-template.html'
+                hideDelay   : 4000,
+                position    : 'bottom center',
+                controller  : ToastCtrl,
+                controllerAs: "tc",
+                templateUrl : 'src/login/view/toas-template.html',
+                locals:{
+                    message: message
+                }
+            }).then(function(){
+                self.loading = false;
             });
         };
 
@@ -36,15 +42,16 @@
                 LoginInfo.setUser(response["usuario"])
                 $location.path('dashboard').replace();
             }, function(error){
-                $log(error.data.Message);
-                self.errorMessage = error.data.Message;
-                self.showCustomToast();
+                $log.error(error.data.message);
+                self.errorMessage = error.data.message;
+                self.showCustomToast(self.errorMessage);
             })
         }
     }
 
-    function ToastCtrl($mdToast,$mdDialog){
+    function ToastCtrl($mdToast,$mdDialog, message){
         let selft = this;
+        selft.errorMessage = message;
         selft.closeToast = function(){
             if(isDlgOpen) return;
             $mdToast

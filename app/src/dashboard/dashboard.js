@@ -52,6 +52,7 @@
 			vm.addBrand = addBrand;
 			vm.addType= addType;
 			vm.openBuyProduct = openBuyProduct;
+			vm.openEditProduct = openEditProduct;
 			//vm.openRemoveProductDialog =openRemoveProductDialog;
 
 			Load(vm.providerDb)
@@ -151,7 +152,7 @@
 				vpd.save = save;
 
 				function close() {
-					$mdDialog.close();
+					$mdDialog.cancel();
 				}
 
 				function save(quantity){
@@ -167,12 +168,15 @@
 			function addNewItemProducts(buyed, db){
 				//buyed.product.quantity = buyed.product.quantity + buyed.quantity;
 				buyed.product.quantity += buyed.quantity;
-				let index = buyed.product.providers.map((elem)=>elem.prov_id).indexOf(buyed.provider._id);
-				if(index){
+				let index = buyed.product.providers.map((elem)=>elem.prov_id._id).indexOf(buyed.provider._id);
+				if(index >= 0){
 					buyed.product.providers[index].quantity += buyed.quantity
 				} else {
 					buyed.product.providers.push({
-						prov_id:buyed.provider._id,
+						prov_id:{
+							_id:buyed.provider._id,
+							name:buyed.provider.name,
+						},
 						quantity: buyed.quantity
 					})
 				}
@@ -190,6 +194,39 @@
 
 					})
 
+			}
+
+			function openEditProduct(product){
+					$mdDialog.show({
+					controller:EditProductDialogCtrl,
+					controllerAs: "cd",
+					locals:{
+						//providerList: vm.providerList,
+						product: product
+					},
+					templateUrl:"src/dashboard/view/editProduct.tmpl.html",
+					parent: angular.element(document.body),
+					//targetEvent: ev,
+					clickOutsideToClose : true,
+					fullscreen: true
+				}).then(function(buyed){
+					//vm.createNewProduct(np);
+					addNewItemProducts(buyed, vm.productDb);
+
+
+				}).catch(function(err){
+					console.log(err);
+				});
+
+
+			}
+			function EditProductDialogCtrl($mdDialog, product){
+				let epd = this;
+				epd.product = product;
+				epd.close = close;
+				function close(){
+					$mdDialog.cancel();
+				}
 			}
 
 			/*function openRemoveProductDialog(index, tpl){

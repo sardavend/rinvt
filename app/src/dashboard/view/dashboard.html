@@ -118,13 +118,14 @@
 					<img ng-src="{{product.img}}?{{$index}}" alt="{{producto.description}}" class="md-avatar">
 					<div class="md-list-item-text" layout="column">
 						<h3>{{ product.name }}</h3>
-						<h4>{{ product.sellPrice}}</h4>
+						<h4>{{ product.quantity }}</h4>
+						<h4>{{ product.sellPrice}} Bs.</h4>
 						<p>{{  product.brand.name}}</p>
 					</div>
 					<span flex></span>
 
 				        <md-icon md-svg-icon="assets/svg/ic_note_add_white_24px.svg" class="md-secondary" ng-click="dshb.openBuyProduct(product)"></md-icon>
-				        <md-icon md-svg-icon="assets/svg/ic_mode_edit_white_24px.svg" class="md-secondary md-hue-3" ng-click=""></md-icon>
+				        <md-icon md-svg-icon="assets/svg/ic_mode_edit_white_24px.svg" class="md-secondary md-hue-3" ng-click="dshb.openEditProduct(product)"></md-icon>
 				        <md-icon class="md-secondary" ng-click="dshb.openDeleteDialog($index, tpl.productList, dshb.productDb)" md-svg-icon="assets/svg/ic_delete_forever_white_24px.svg"></md-icon>
 
 					<!--<md-button class="md-secondary md-hue-3" aria-label="Delete product" ng-click="">-->
